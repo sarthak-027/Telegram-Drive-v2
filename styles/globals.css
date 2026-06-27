@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Bricolage+Grotesque:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #faf8f5;
+  --bg2: #f2ede6;
+  --bg3: #ebe4d9;
+  --sidebar: #ffffff;
+  --card: #ffffff;
+  --card-hover: #fdf9f5;
+  --border: #e8e0d4;
+  --border2: #d4c9b8;
+  --text1: #1a1208;
+  --text2: #5c4f3a;
+  --text3: #9c8b74;
+  --accent: #e85d26;
+  --accent2: #f0833a;
+  --accent-bg: #fff2ec;
+  --accent-border: #ffd4bc;
+  --green: #2d9e6b;
+  --green-bg: #edfaf4;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --purple: #7c3aed;
+  --purple-bg: #f5f3ff;
+  --pink: #db2777;
+  --pink-bg: #fdf2f8;
+  --yellow: #d97706;
+  --yellow-bg: #fffbeb;
+  --shadow-sm: 0 1px 3px rgba(26,18,8,0.06), 0 1px 2px rgba(26,18,8,0.04);
+  --shadow: 0 4px 16px rgba(26,18,8,0.08), 0 2px 6px rgba(26,18,8,0.04);
+  --shadow-lg: 0 20px 48px rgba(26,18,8,0.12), 0 8px 20px rgba(26,18,8,0.06);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text1);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.display { font-family: 'Clash Display', sans-serif; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+::selection { background: #ffd4bc; color: #e85d26; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; transform:scale(0.97); } to { opacity:1; transform:scale(1); } }
+@keyframes slideIn { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
+@keyframes pop { 0%{transform:scale(0.9);opacity:0} 60%{transform:scale(1.05)} 100%{transform:scale(1);opacity:1} }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg2) 0%, var(--bg3) 50%, var(--bg2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}

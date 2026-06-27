@@ -1,0 +1,14 @@
+# Environment variables
+.env.local
+
+# Node modules
+node_modules/
+
+# Python cache
+__pycache__/
+
+# VS Code settings (optional)
+.vscode/
+
+# Logs
+*.log

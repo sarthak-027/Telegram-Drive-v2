@@ -1,0 +1,25 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+exports.id = "lib_auth_js";
+exports.ids = ["lib_auth_js"];
+exports.modules = {
+
+/***/ "./lib/auth.js":
+/*!*********************!*\
+  !*** ./lib/auth.js ***!
+  \*********************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {\n__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createToken: () => (/* binding */ createToken),\n/* harmony export */   getUserFromRequest: () => (/* binding */ getUserFromRequest),\n/* harmony export */   verifyToken: () => (/* binding */ verifyToken)\n/* harmony export */ });\n/* harmony import */ var jose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jose */ \"jose\");\nvar __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([jose__WEBPACK_IMPORTED_MODULE_0__]);\njose__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];\n// lib/auth.js\n\nconst JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);\n/**\n * Create a JWT token for a Telegram user\n */ async function createToken(user) {\n    return await new jose__WEBPACK_IMPORTED_MODULE_0__.SignJWT({\n        user\n    }).setProtectedHeader({\n        alg: \"HS256\"\n    }).setIssuedAt().setExpirationTime(\"7d\").sign(JWT_SECRET);\n}\n/**\n * Verify and decode a JWT token\n */ async function verifyToken(token) {\n    try {\n        const { payload } = await (0,jose__WEBPACK_IMPORTED_MODULE_0__.jwtVerify)(token, JWT_SECRET);\n        return payload.user;\n    } catch  {\n        return null;\n    }\n}\n/**\n * Get the current user from the request cookies\n */ async function getUserFromRequest(req) {\n    const token = req.cookies?.[\"td_token\"];\n    if (!token) return null;\n    return await verifyToken(token);\n}\n\n__webpack_async_result__();\n} catch(e) { __webpack_async_result__(e); } });//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9saWIvYXV0aC5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7O0FBQUEsY0FBYztBQUM0QjtBQUUxQyxNQUFNRSxhQUFhLElBQUlDLGNBQWNDLE1BQU0sQ0FBQ0MsUUFBUUMsR0FBRyxDQUFDSixVQUFVO0FBRWxFOztDQUVDLEdBQ00sZUFBZUssWUFBWUMsSUFBSTtJQUNwQyxPQUFPLE1BQU0sSUFBSVIseUNBQU9BLENBQUM7UUFBRVE7SUFBSyxHQUM3QkMsa0JBQWtCLENBQUM7UUFBRUMsS0FBSztJQUFRLEdBQ2xDQyxXQUFXLEdBQ1hDLGlCQUFpQixDQUFDLE1BQ2xCQyxJQUFJLENBQUNYO0FBQ1Y7QUFFQTs7Q0FFQyxHQUNNLGVBQWVZLFlBQVlDLEtBQUs7SUFDckMsSUFBSTtRQUNGLE1BQU0sRUFBRUMsT0FBTyxFQUFFLEdBQUcsTUFBTWYsK0NBQVNBLENBQUNjLE9BQU9iO1FBQzNDLE9BQU9jLFFBQVFSLElBQUk7SUFDckIsRUFBRSxPQUFNO1FBQ04sT0FBTztJQUNUO0FBQ0Y7QUFFQTs7Q0FFQyxHQUNNLGVBQWVTLG1CQUFtQkMsR0FBRztJQUMxQyxNQUFNSCxRQUFRRyxJQUFJQyxPQUFPLEVBQUUsQ0FBQyxXQUFXO0lBQ3ZDLElBQUksQ0FBQ0osT0FBTyxPQUFPO0lBQ25CLE9BQU8sTUFBTUQsWUFBWUM7QUFDM0IiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly90ZWxlZ3JhbS1kcml2ZS8uL2xpYi9hdXRoLmpzPzI4N2IiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gbGliL2F1dGguanNcbmltcG9ydCB7IFNpZ25KV1QsIGp3dFZlcmlmeSB9IGZyb20gJ2pvc2UnO1xuXG5jb25zdCBKV1RfU0VDUkVUID0gbmV3IFRleHRFbmNvZGVyKCkuZW5jb2RlKHByb2Nlc3MuZW52LkpXVF9TRUNSRVQpO1xuXG4vKipcbiAqIENyZWF0ZSBhIEpXVCB0b2tlbiBmb3IgYSBUZWxlZ3JhbSB1c2VyXG4gKi9cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBjcmVhdGVUb2tlbih1c2VyKSB7XG4gIHJldHVybiBhd2FpdCBuZXcgU2lnbkpXVCh7IHVzZXIgfSlcbiAgICAuc2V0UHJvdGVjdGVkSGVhZGVyKHsgYWxnOiAnSFMyNTYnIH0pXG4gICAgLnNldElzc3VlZEF0KClcbiAgICAuc2V0RXhwaXJhdGlvblRpbWUoJzdkJylcbiAgICAuc2lnbihKV1RfU0VDUkVUKTtcbn1cblxuLyoqXG4gKiBWZXJpZnkgYW5kIGRlY29kZSBhIEpXVCB0b2tlblxuICovXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gdmVyaWZ5VG9rZW4odG9rZW4pIHtcbiAgdHJ5IHtcbiAgICBjb25zdCB7IHBheWxvYWQgfSA9IGF3YWl0IGp3dFZlcmlmeSh0b2tlbiwgSldUX1NFQ1JFVCk7XG4gICAgcmV0dXJuIHBheWxvYWQudXNlcjtcbiAgfSBjYXRjaCB7XG4gICAgcmV0dXJuIG51bGw7XG4gIH1cbn1cblxuLyoqXG4gKiBHZXQgdGhlIGN1cnJlbnQgdXNlciBmcm9tIHRoZSByZXF1ZXN0IGNvb2tpZXNcbiAqL1xuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdldFVzZXJGcm9tUmVxdWVzdChyZXEpIHtcbiAgY29uc3QgdG9rZW4gPSByZXEuY29va2llcz8uWyd0ZF90b2tlbiddO1xuICBpZiAoIXRva2VuKSByZXR1cm4gbnVsbDtcbiAgcmV0dXJuIGF3YWl0IHZlcmlmeVRva2VuKHRva2VuKTtcbn1cbiJdLCJuYW1lcyI6WyJTaWduSldUIiwiand0VmVyaWZ5IiwiSldUX1NFQ1JFVCIsIlRleHRFbmNvZGVyIiwiZW5jb2RlIiwicHJvY2VzcyIsImVudiIsImNyZWF0ZVRva2VuIiwidXNlciIsInNldFByb3RlY3RlZEhlYWRlciIsImFsZyIsInNldElzc3VlZEF0Iiwic2V0RXhwaXJhdGlvblRpbWUiLCJzaWduIiwidmVyaWZ5VG9rZW4iLCJ0b2tlbiIsInBheWxvYWQiLCJnZXRVc2VyRnJvbVJlcXVlc3QiLCJyZXEiLCJjb29raWVzIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./lib/auth.js\n");
+
+/***/ })
+
+};
+;

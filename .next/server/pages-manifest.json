@@ -1,0 +1,11 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js",
+  "/dashboard": "pages/dashboard.js",
+  "/api/auth/logout": "pages/api/auth/logout.js",
+  "/api/auth/telegram": "pages/api/auth/telegram.js",
+  "/api/folders": "pages/api/folders.js",
+  "/api/files/list": "pages/api/files/list.js"
+}
