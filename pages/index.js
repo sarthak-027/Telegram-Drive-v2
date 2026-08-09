@@ -7,7 +7,7 @@ function LoginOverlay({ user }) {
   const [step, setStep] = useState(0);
 
   const steps = [
-    { label: 'Verifying Telegram identity…', icon: '🔐' },
+    { label: 'Verifying Google identity…', icon: '🔐' },
     { label: 'Setting up your session…',      icon: '⚙️' },
     { label: 'Loading your drive…',            icon: '☁️' },
     { label: 'Welcome, ' + (user?.first_name || 'you') + '!', icon: '✅' },
