@@ -1,4 +1,3 @@
-// pages/auth/callback.js
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
@@ -6,10 +5,21 @@ export default function AuthCallback() {
   const router = useRouter();
 
   useEffect(() => {
-    // Extract code from URL and send to our API
-    const code = new URLSearchParams(window.location.search).get('code');
-    if (code) {
-      window.location.href = `/api/auth/google?code=${code}`;
+    const hash = window.location.hash;
+    const params = new URLSearchParams(hash.slice(1));
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
+
+    if (accessToken) {
+      // Send tokens to our API to create JWT cookie
+      fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token: accessToken, refresh_token: refreshToken }),
+      }).then(res => {
+        if (res.ok) router.replace('/dashboard');
+        else router.replace('/?error=auth_failed');
+      });
     } else {
       router.replace('/');
     }
