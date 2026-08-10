@@ -443,8 +443,10 @@ export default function Home() {
 </div>
 <button
   onClick={() => {
-    window.location.href = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${window.location.origin}/auth/callback`;
-  }}
+  const supabaseUrl = 'https://dckkrgiucpbzrnvsqepc.supabase.co';
+  const redirectTo = encodeURIComponent(`${window.location.origin}/auth/callback`);
+  window.location.href = `${supabaseUrl}/auth/v1/authorize?provider=google&redirect_to=${redirectTo}`;
+}}
   style={{
     display: 'flex', alignItems: 'center', gap: 12,
     background: '#fff', border: 'none', borderRadius: 12,
