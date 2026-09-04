@@ -2,46 +2,45 @@
 import { getUserFromRequest } from '../../../lib/auth';
 import { sendFileToTelegram, extractFileId, getCategoryFromMime } from '../../../lib/telegram';
 import { getServiceSupabase } from '../../../lib/supabase';
+import formidable from 'formidable';
+import fs from 'fs';
 
 export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '50mb',
-    },
-  },
+  api: { bodyParser: false }, // disable bodyParser — we handle it manually
 };
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // Verify user is logged in
   const user = await getUserFromRequest(req);
   if (!user) return res.status(401).json({ error: 'Not authenticated' });
 
   try {
-    const { name, mimeType, size, data: base64Data, folder = 'root' } = req.body;
+    // Parse multipart form
+    const form = formidable({ maxFileSize: 2000 * 1024 * 1024 }); // 2GB
+    const [fields, files] = await form.parse(req);
 
-    if (!name || !mimeType || !base64Data) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
+    const uploadedFile = files.file?.[0];
+    if (!uploadedFile) return res.status(400).json({ error: 'No file provided' });
 
-    // Decode base64 to buffer
-    const fileBuffer = Buffer.from(base64Data, 'base64');
+    const name = fields.name?.[0] || uploadedFile.originalFilename || 'untitled';
+    const mimeType = fields.mimeType?.[0] || uploadedFile.mimetype || 'application/octet-stream';
+    const folder = fields.folder?.[0] || 'root';
+    const size = uploadedFile.size;
+
+    // Read file from temp path as buffer (stream directly to Telegram)
+    const fileBuffer = fs.readFileSync(uploadedFile.filepath);
 
     // Upload to Telegram
     const message = await sendFileToTelegram(fileBuffer, name, mimeType);
-
-    // Extract file_id from telegram message
     const telegramFileId = extractFileId(message);
-    if (!telegramFileId) {
-      throw new Error('Could not extract file ID from Telegram response');
-    }
+    if (!telegramFileId) throw new Error('Could not extract file ID from Telegram');
+
+    // Cleanup temp file
+    fs.unlinkSync(uploadedFile.filepath);
 
     const category = getCategoryFromMime(mimeType);
 
-    // Save metadata to Supabase
     const supabase = getServiceSupabase();
     const { data: fileRecord, error } = await supabase
       .from('files')
@@ -49,20 +48,16 @@ export default async function handler(req, res) {
         user_id: user.id,
         telegram_file_id: telegramFileId,
         message_id: message.message_id,
-        name,
-        category,
-        mime_type: mimeType,
-        size: size || fileBuffer.length,
-        folder,
+        name, category, mime_type: mimeType, size, folder,
       })
       .select()
       .single();
 
     if (error) throw error;
-
     return res.status(200).json({ ok: true, file: fileRecord });
-  } catch (error) {
-    console.error('Upload error:', error);
-    return res.status(500).json({ error: error.message || 'Upload failed' });
+
+  } catch (err) {
+    console.error('Upload error:', err);
+    return res.status(500).json({ error: err.message || 'Upload failed' });
   }
 }
