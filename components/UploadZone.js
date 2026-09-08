@@ -55,10 +55,11 @@ export default function UploadZone({ onUploadComplete }) {
       const category = getCategoryFromMime(mimeType);
 
       let method = 'sendDocument';
-      let fieldName = 'document';
-      if (category === 'image') { method = 'sendPhoto'; fieldName = 'photo'; }
-      else if (category === 'video') { method = 'sendVideo'; fieldName = 'video'; }
-      else if (category === 'audio') { method = 'sendAudio'; fieldName = 'audio'; }
+let fieldName = 'document';
+// sendPhoto is limited to 10MB — use sendDocument for larger images
+if (category === 'image' && file.size <= 10 * 1024 * 1024) { method = 'sendPhoto'; fieldName = 'photo'; }
+else if (category === 'video') { method = 'sendVideo'; fieldName = 'video'; }
+else if (category === 'audio') { method = 'sendAudio'; fieldName = 'audio'; }
 
       const formData = new FormData();
       formData.append('chat_id', chatId);
