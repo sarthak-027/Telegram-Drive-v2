@@ -24,10 +24,9 @@ export default function FilePreviewModal({ file, onClose, onDownload, allFiles =
   useEffect(() => {
     if (!currentFile) return;
     setLoading(true); setUrl(null); setZoom(1); setRotation(0);
-    fetch(`/api/files/download?id=${currentFile.id}`)
-      .then(r => r.json())
-      .then(d => { setUrl(d.url); setLoading(false); })
-      .catch(() => setLoading(false));
+    // Use proxy URL directly — no CORS issues
+    setUrl(`/api/files/proxy?id=${currentFile.id}`);
+    setLoading(false);
   }, [currentFile?.id]);
 
   const cat = currentFile?.category;
